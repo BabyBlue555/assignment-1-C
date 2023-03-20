@@ -95,13 +95,9 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem)
 
 PElement GetAdptArrayAt(PAdptArray pArr, int idx){
 
-	int i;
-	int findIdx=-1;
-	for(i=0;i<GetAdptArraySize(pArr);i++){
-		if(NULL != (pArr->pElemArr)[i] && (idx == i)) // check if it's enough
-			findIdx=i;
-	}
-	return (findIdx>=0) ? (pArr->copyFunc(pArr)) : NULL;
+	if(NULL == (pArr->pElemArr)[idx])
+		idx=-1;
+	return (idx>=0) ? (pArr->copyFunc(pArr->pElemArr[idx])) : NULL;
 
 }
 
@@ -122,7 +118,7 @@ void PrintDB(PAdptArray pArr){
     for(i=0;i<GetAdptArraySize(pArr);i++){
        // make sure we are not passing NULL to printFunc
         if((pArr->pElemArr)[i]){
-            pArr->printFunc((pArr->pElemArr)[i])
+            pArr->printFunc((pArr->pElemArr)[i]);
         }
     }
 }
