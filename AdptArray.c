@@ -1,8 +1,11 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "AdptArray.h"
 #include "book.h"
 #include "Person.h"
+
+void *memcpy(void *dest, const void * src, size_t n);
 
 
 typedef struct AdptArray_
@@ -39,7 +42,9 @@ void DeleteAdptArray(PAdptArray pArr)
 		return;
 	for(i = 0; i < pArr->ArrSize; ++i)
 	{
+		if(pArr->pElemArr[i]){
 		pArr->delFunc((pArr->pElemArr)[i]);
+		}
 	}
 	free(pArr->pElemArr);
 	free(pArr);
@@ -69,13 +74,15 @@ Result SetAdptArrayAt(PAdptArray pArr, int idx, PElement pNewElem)
 
     }
         // Delete Previous Elem and Set New Elem
-        pArr->delFunc((pArr->pElemArr)[idx]);
-        (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
+		if(pArr->pElemArr[idx] !=NULL){
+        	pArr->delFunc((pArr->pElemArr)[idx]);
+		}
+       (pArr->pElemArr)[idx] = pArr->copyFunc(pNewElem);
 
         // Update Array Size, if the idx is bigger that the array size
         pArr->ArrSize = (idx >= pArr->ArrSize) ? (idx + 1) : pArr->ArrSize;
         return SUCCESS;
-	
+
 
 }
 
@@ -114,7 +121,7 @@ int GetAdptArraySize(PAdptArray pArr){
 // prints the elements in the array
 void PrintDB(PAdptArray pArr){
     int i;
-    printf("the database contains the following:\n");
+    // printf("the database contains the following:\n");
     for(i=0;i<GetAdptArraySize(pArr);i++){
        // make sure we are not passing NULL to printFunc
         if((pArr->pElemArr)[i]){
