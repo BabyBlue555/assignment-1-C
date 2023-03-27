@@ -1,5 +1,5 @@
 <<<<<<< HEAD
-# assignment-1-C
+# assignment-1-Cpp
 first assignment in program engineering ,second semester- cpp
 
 In order to do the assignment , i used the following sources:
